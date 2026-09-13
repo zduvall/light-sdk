@@ -64,7 +64,7 @@ Once the emulator is running and connected (verify with `adb devices`):
 
 _Compiles the `:tool` module with Gradle and installs the debug APK onto the active emulator/device._
 
-### 2. Launch the app on the emulator
+### 2. Launch/Reload the app on the emulator
 
 ```bash
 adb shell am start -n com.thelightphone.app/com.thelightphone.sdk.LightActivity
