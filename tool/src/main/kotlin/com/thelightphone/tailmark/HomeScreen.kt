@@ -1,4 +1,4 @@
-package com.thelightphone.sample
+package com.thelightphone.tailmark
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -87,7 +87,7 @@ class HomeScreen(sealedActivity: SealedLightActivity) : LightScreen<Unit, HomeSc
                     .padding(32.dp)
             ) {
                 LightText(
-                    text = "Ringtones",
+                    text = "Tailmark",
                     variant = LightTextVariant.Heading,
                     modifier = Modifier.padding(bottom = 16.dp),
                 )

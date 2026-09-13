@@ -67,7 +67,7 @@ _Compiles the `:tool` module with Gradle and installs the debug APK onto the act
 ### 2. Launch/Reload the app on the emulator
 
 ```bash
-adb shell am start -n com.thelightphone.app/com.thelightphone.sdk.LightActivity
+adb shell am start -n com.thelightphone.tailmark/com.thelightphone.sdk.LightActivity
 ```
 
 _Sends an Android Activity Manager intent to launch the tool's main activity._
