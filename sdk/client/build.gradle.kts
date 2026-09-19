@@ -3,7 +3,8 @@ import kotlin.apply
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    // REF-agp9-build-fixes: kotlin.android removed — AGP 9.0 includes Kotlin support natively; applying this plugin is a fatal error in AGP 9+
+    // alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.light.sdk)
     alias(libs.plugins.ksp)

@@ -47,7 +47,8 @@ class LightSdkPlugin : Plugin<Project> {
         val ALLOWED_PLUGINS = setOf(
             "com.android.application",
             "com.android.library",
-            "org.jetbrains.kotlin.android",
+            // REF-agp9-build-fixes: kotlin.android removed from allowlist — AGP 9.0 includes Kotlin support natively; it is no longer a valid plugin to apply
+            // "org.jetbrains.kotlin.android",
             "org.jetbrains.kotlin.jvm",
             "org.jetbrains.kotlin.plugin.compose",
             "org.jetbrains.kotlin.plugin.serialization",
