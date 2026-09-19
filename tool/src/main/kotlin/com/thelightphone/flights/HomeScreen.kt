@@ -77,8 +77,20 @@ class HomeScreen(
                 // Briefly explains what Flights does and how it accesses
                 // flight data.
                 LightText(
-                    text = "Track live flight statuses using AeroDataBox via RapidAPI. It uses a Bring Your Own Key (BYOK) architecture, so you provide your own RapidAPI key.",
-                    variant = LightTextVariant.Copy,
+                    text = "Track live flight statuses.",
+                    variant = LightTextVariant.Paragraph,
+                    lighten = true,
+                    modifier = Modifier.padding(bottom = 16.dp),                        
+                )
+                LightText(
+                    text = "An AeroDataBox RapidAPI key is required to use this app.",
+                    variant = LightTextVariant.Paragraph,
+                    lighten = true,
+                    modifier = Modifier.padding(bottom = 16.dp),                        
+                )
+                LightText(
+                    text = "To retrieve an API key, sign up on RapidAPI and create a new key for AeroDataBox.",
+                    variant = LightTextVariant.Superfine,
                     lighten = true,
                 )
             }
