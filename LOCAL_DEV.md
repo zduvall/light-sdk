@@ -56,21 +56,18 @@ emulator -avd LightPhone3 -writable-system -adb-path ~/.nix-profile/bin/adb
 
 Once the emulator is running and connected (verify with `adb devices`):
 
-### 1. Build and install your tool app
+### Build, Install, and Launch
+
+Compile your changes, install the updated APK, and force-restart the app on the running emulator with a single command:
 
 ```bash
-./gradlew :tool:installDebug
+./gradlew :tool:installDebug && adb shell am start -S -n com.thelightphone.flights/com.thelightphone.sdk.LightActivity
 ```
 
-_Compiles the `:tool` module with Gradle and installs the debug APK onto the active emulator/device._
-
-### 2. Launch/Reload the app on the emulator
-
-```bash
-adb shell am start -n com.thelightphone.tailmark/com.thelightphone.sdk.LightActivity
-```
-
-_Sends an Android Activity Manager intent to launch the tool's main activity._
+- `./gradlew :tool:installDebug`: Compiles the :tool module and installs the new debug build onto the active emulator.
+- `adb shell am start`: Executes Android's Activity Manager to launch the app activity.
+- `-S`: Force-stops any currently running instance first so your updated UI and code load cleanly.
+- `-n <component>`: Specifies the exact app package and activity to open.
 
 ---
 
