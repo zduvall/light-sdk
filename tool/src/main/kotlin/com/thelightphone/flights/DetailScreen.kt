@@ -1,4 +1,4 @@
-package com.thelightphone.tailmark
+package com.thelightphone.flights
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

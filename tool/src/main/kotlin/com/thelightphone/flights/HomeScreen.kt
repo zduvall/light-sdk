@@ -1,4 +1,4 @@
-package com.thelightphone.tailmark
+package com.thelightphone.flights
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -87,7 +87,7 @@ class HomeScreen(sealedActivity: SealedLightActivity) : LightScreen<Unit, HomeSc
                     .padding(32.dp)
             ) {
                 LightText(
-                    text = "Tailmark",
+                    text = "Flights",
                     variant = LightTextVariant.Heading,
                     modifier = Modifier.padding(bottom = 16.dp),
                 )

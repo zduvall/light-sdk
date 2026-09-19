@@ -1,4 +1,4 @@
-package com.thelightphone.tailmark
+package com.thelightphone.flights
 
 import android.util.Log
 import com.thelightphone.sdk.EntryPoint

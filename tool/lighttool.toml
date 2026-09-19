@@ -1,6 +1,6 @@
 [tool]
-id = "com.thelightphone.tailmark"
-label = "Tailmark"
+id = "com.thelightphone.flights"
+label = "Flights"
 versionCode = 1
 versionName = "1.0.0"
 permissions = ["android.permission.INTERNET"]
