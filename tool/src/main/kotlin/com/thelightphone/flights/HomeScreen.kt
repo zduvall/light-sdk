@@ -96,8 +96,7 @@ class HomeScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 1f.gridUnitsAsDp()),
                 ) {
-                    
-                    
+
                     // Briefly explains what Flights does and how it accesses
                     // flight data.
                     LightText(
