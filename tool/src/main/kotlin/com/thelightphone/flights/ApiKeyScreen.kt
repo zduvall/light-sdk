@@ -117,13 +117,13 @@ class ApiKeyScreen(
                             navigateTo(
                                 screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
                                 resultCallback = { enteredKey ->
-                                    // 1. Save the key
-                                    viewModel.setApiKey(enteredKey) 
+                                    viewModel.setApiKey(enteredKey) // save the key
                                     
-                                    // 2. If typed something, go back to the previous screen
-                                    if (enteredKey.isNotBlank()) {
-                                        goBack()
+                                    if (enteredKey.isBlank()) { 
+                                        return@navigateTo // if no text, exit early
                                     }
+                                    
+                                    goBack() // if typed something, go to previous screen
                                 }
                             )
                         },
