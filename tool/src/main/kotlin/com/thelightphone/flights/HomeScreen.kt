@@ -34,9 +34,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 /**
- * ViewModel containing the data and behavior for HomeScreen.
- * - screen-specific state and behavior
- * - managing data persistence asynchronously using Jetpack DataStore via the shared [SettingsRepository].
+ * ViewModel containing the data and behavior for HomeScreen. Manages data
+ * persistence asynchronously via shared [SettingsRepository].
  */
 class HomeScreenViewModel(
     private val dataStore: DataStore<Preferences>
