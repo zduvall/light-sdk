@@ -97,7 +97,7 @@ class ApiKeyScreen(
             ) {
 
                 LightTopBar(
-                    center = LightTopBarCenter.Text("API Setup"),
+                    center = LightTopBarCenter.Text("Flights API Setup"),
                     leftButton = if (apiKeyValue.isNotBlank()) {
                         LightBarButton.LightIcon(
                             icon = LightIcons.BACK,
@@ -154,7 +154,7 @@ class ApiKeyScreen(
                             to 1,600 requests and 400 API units monthly, which
                             should be sufficient for regular personal use. For
                             the latest rate limits and pricing, visit
-                            https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing
+                            https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing.
                         """.trimIndent().replace("\n", " "),
                         variant = LightTextVariant.Superfine,
                         lighten = true,
