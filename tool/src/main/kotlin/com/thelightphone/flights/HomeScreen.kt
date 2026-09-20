@@ -95,7 +95,6 @@ class HomeScreen(
                     LightText(
                         text = "Track live flight statuses.",
                         variant = LightTextVariant.Paragraph,
-                        modifier = Modifier.padding(vertical = 0.75f.gridUnitsAsDp()),                        
                     )
                     LightTextField(
                         label = "AeroDataBox RapidAPI Key:",
@@ -114,10 +113,7 @@ class HomeScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(
-                                horizontal = 1f.gridUnitsAsDp(),
-                                vertical = 0.75f.gridUnitsAsDp()
-                            ),
+                            .padding(bottom = 0.75f.gridUnitsAsDp())
                     )
                     LightText(
                         text = "An AeroDataBox RapidAPI key is required to use this app. To retrieve an API key, sign up on RapidAPI and create a new key for AeroDataBox.",
