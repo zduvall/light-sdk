@@ -147,7 +147,15 @@ class ApiKeyScreen(
                             .padding(bottom = 0.75f.gridUnitsAsDp())
                     )
                     LightText(
-                        text = "An API key can be retrieved by visiting https://rapidapi.com/ and creating a new key for \"AeroDataBox\".",
+                        text = """
+                            To obtain an API key, create an account on RapidAPI
+                            and subscribe to the "AeroDataBox" service. As of
+                            September 2026, a free tier is available offering up
+                            to 1,600 requests and 400 API units monthly, which
+                            should be sufficient for regular personal use. For
+                            full pricing details, visit
+                            https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing
+                        """.trimIndent().replace("\n", " "),
                         variant = LightTextVariant.Superfine,
                         lighten = true,
                     )
