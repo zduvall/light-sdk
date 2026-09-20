@@ -153,7 +153,7 @@ class ApiKeyScreen(
                             September 2026, a free tier is available offering up
                             to 1,600 requests and 400 API units monthly, which
                             should be sufficient for regular personal use. For
-                            full pricing details, visit
+                            the latest rate limits and pricing, visit
                             https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing
                         """.trimIndent().replace("\n", " "),
                         variant = LightTextVariant.Superfine,
