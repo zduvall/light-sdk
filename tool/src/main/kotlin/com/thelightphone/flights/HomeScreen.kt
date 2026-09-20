@@ -3,6 +3,7 @@ package com.thelightphone.flights
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,17 +15,34 @@ import com.thelightphone.sdk.InitialScreen
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
+import com.thelightphone.sdk.ui.lightClickable
+import com.thelightphone.sdk.ui.LightScrollView
 import com.thelightphone.sdk.ui.LightText
+import com.thelightphone.sdk.ui.LightTextField
 import com.thelightphone.sdk.ui.LightTextVariant
 import com.thelightphone.sdk.ui.LightTheme
 import com.thelightphone.sdk.ui.LightThemeController
 import com.thelightphone.sdk.ui.LightThemeTokens
+import com.thelightphone.sdk.ui.LightTopBar
+import com.thelightphone.sdk.ui.LightTopBarCenter
+import com.thelightphone.sdk.ui.gridUnitsAsDp
+
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * ViewModel containing the data and behavior for HomeScreen.
  * Use for screen-specific state and behavior
  */
-class HomeScreenViewModel : LightViewModel<Unit>()
+class HomeScreenViewModel : LightViewModel<Unit>() {
+    private val _apiKey = MutableStateFlow("")
+    val apiKey: StateFlow<String> = _apiKey.asStateFlow()
+
+    fun setApiKey(value: String) {
+        _apiKey.value = value
+    }
+}
 
 
 @InitialScreen // tells Light Phone SDK that this is the app's starting screen.
@@ -51,6 +69,8 @@ class HomeScreen(
         // if the theme changes.
         val themeColors by LightThemeController.colors.collectAsState()
 
+        val apiKeyValue by viewModel.apiKey.collectAsState()
+        
         // Apply the Light Phone theme to everything inside this block.
         LightTheme(colors = themeColors) {
 
@@ -62,37 +82,55 @@ class HomeScreen(
 
                     // Use the background color from the Light Phone theme.
                     .background(LightThemeTokens.colors.background)
-
-                    // Add space around the contents.
-                    .padding(32.dp)
             ) {
 
                 // App title.
-                LightText(
-                    text = "Flights",
-                    variant = LightTextVariant.Heading,
-                    modifier = Modifier.padding(bottom = 16.dp),
-                )
+                LightTopBar(
+                    center = LightTopBarCenter.Text("Flights"),
+                    modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
+                )                
 
-                // Briefly explains what Flights does and how it accesses
-                // flight data.
-                LightText(
-                    text = "Track live flight statuses.",
-                    variant = LightTextVariant.Paragraph,
-                    lighten = true,
-                    modifier = Modifier.padding(bottom = 16.dp),                        
-                )
-                LightText(
-                    text = "An AeroDataBox RapidAPI key is required to use this app.",
-                    variant = LightTextVariant.Paragraph,
-                    lighten = true,
-                    modifier = Modifier.padding(bottom = 16.dp),                        
-                )
-                LightText(
-                    text = "To retrieve an API key, sign up on RapidAPI and create a new key for AeroDataBox.",
-                    variant = LightTextVariant.Superfine,
-                    lighten = true,
-                )
+                LightScrollView(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(horizontal = 1f.gridUnitsAsDp()),
+                ) {
+                    
+                    
+                    // Briefly explains what Flights does and how it accesses
+                    // flight data.
+                    LightText(
+                        text = "Track live flight statuses.",
+                        variant = LightTextVariant.Paragraph,
+                        lighten = true,
+                        modifier = Modifier.padding(vertical = 0.75f.gridUnitsAsDp()),                        
+                    )
+                    LightTextField(
+                        label = "AeroDataBox RapidAPI Key:",
+                        value = apiKeyValue,
+                        placeholder = "Your AeroDataBox RapidAPI key",
+                        onClick = {
+                            val editorRequest = EditorRequest(
+                                title = "AeroDataBox RapidAPI Key",
+                                initialValue = apiKeyValue,
+                                initialCaps = apiKeyValue.isBlank(),
+                            )
+                            navigateTo(
+                                screenFactory = { TextInputEditorScreen(it, editorRequest) },
+                                resultCallback = { viewModel.setApiKey(it) }
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 1f.gridUnitsAsDp()),
+                    )
+                    LightText(
+                        text = "An AeroDataBox RapidAPI key is required to use this app. To retrieve an API key, sign up on RapidAPI and create a new key for AeroDataBox.",
+                        variant = LightTextVariant.Superfine,
+                        lighten = true,
+                    )
+                }
             }
         }
     }
