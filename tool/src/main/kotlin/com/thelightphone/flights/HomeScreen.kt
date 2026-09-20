@@ -1,65 +1,45 @@
 package com.thelightphone.flights
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.viewModelScope
 
 import com.thelightphone.sdk.InitialScreen
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
-import com.thelightphone.sdk.ui.LightScrollView
-import com.thelightphone.sdk.ui.LightText
-import com.thelightphone.sdk.ui.LightTextField
-import com.thelightphone.sdk.ui.LightTextVariant
 import com.thelightphone.sdk.ui.LightTheme
 import com.thelightphone.sdk.ui.LightThemeController
 import com.thelightphone.sdk.ui.LightThemeTokens
-import com.thelightphone.sdk.ui.LightTopBar
-import com.thelightphone.sdk.ui.LightTopBarCenter
-import com.thelightphone.sdk.ui.gridUnitsAsDp
 
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 /**
- * ViewModel containing the data and behavior for HomeScreen. Manages data
- * persistence asynchronously via shared [SettingsRepository].
+ * ViewModel containing the data for HomeScreen. 
+ * Reads the API key to route the user to the correct initial destination.
  */
 class HomeScreenViewModel(
-    private val dataStore: DataStore<Preferences>
+    dataStore: DataStore<Preferences>
 ) : LightViewModel<Unit>() {
 
-    // Read the API key as a StateFlow, defaulting to empty string if not yet set.
-    val apiKey: StateFlow<String> = SettingsRepository.apiKeyFlow(dataStore)
+    // Read the API key as a StateFlow, defaulting to null while DataStore asynchronously loads.
+    val apiKey: StateFlow<String?> = SettingsRepository.apiKeyFlow(dataStore)
         .stateIn( // convert the ordinary Flow into a StateFlow
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = ""
+            initialValue = null // null indicates "still loading"
         )
-
-    /**
-     * Persist AeroDataBox API key to local disk. 
-     * @param value The plaintext string token to persist.
-     */
-    fun setApiKey(value: String) {
-        viewModelScope.launch {
-            SettingsRepository.setApiKey(dataStore, value)
-        }
-    }
 }
-
 
 @InitialScreen // tells Light Phone SDK that this is the app's starting screen.
 class HomeScreen(
@@ -82,57 +62,25 @@ class HomeScreen(
         val apiKeyValue by viewModel.apiKey.collectAsState()
         val themeColors by LightThemeController.colors.collectAsState()
         
-        // Apply the Light Phone theme to everything inside this block.
+        // Route to appropriate screen once DataStore finishes loading
+        LaunchedEffect(apiKeyValue) {
+            // assign key if loaded, otherwise exit LauncedEffect block
+            val key = apiKeyValue ?: return@LaunchedEffect 
+            
+            if (key.isBlank()) {
+                navigateTo(screenFactory = { ApiKeyScreen(it) })
+            } else {
+                navigateTo(screenFactory = { FlightsSearchScreen(it) })
+            }
+        }
+        
+        // Apply the Light Phone theme to a blank background while routing resolves
         LightTheme(colors = themeColors) {
-
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(LightThemeTokens.colors.background)
-            ) {
-
-                LightTopBar(
-                    center = LightTopBarCenter.Text("Flights"),
-                    modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
-                )
-
-                LightScrollView(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .padding(horizontal = 1f.gridUnitsAsDp()),
-                ) {
-
-                    LightText(
-                        text = "Track live flight statuses.",
-                        variant = LightTextVariant.Paragraph,
-                    )
-                    LightTextField(
-                        label = "AeroDataBox RapidAPI Key:",
-                        value = apiKeyValue,
-                        placeholder = "",
-                        onClick = {
-                            val editorRequest = EditorRequest(
-                                title = "AeroDataBox RapidAPI Key",
-                                initialValue = apiKeyValue,
-                                initialCaps = apiKeyValue.isBlank(),
-                            )
-                            navigateTo(
-                                screenFactory = { TextInputEditorScreen(it, editorRequest) },
-                                resultCallback = { viewModel.setApiKey(it) }
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 0.75f.gridUnitsAsDp())
-                    )
-                    LightText(
-                        text = "An AeroDataBox RapidAPI key is required to use this app. To retrieve an API key, sign up on RapidAPI and create a new key for AeroDataBox.",
-                        variant = LightTextVariant.Superfine,
-                        lighten = true,
-                    )
-                }
-            }
+            )
         }
     }
 }
