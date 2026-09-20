@@ -1,5 +1,7 @@
 package com.thelightphone.flights
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewModelScope
 
 import com.thelightphone.sdk.InitialScreen
 import com.thelightphone.sdk.LightScreen
@@ -25,20 +28,36 @@ import com.thelightphone.sdk.ui.LightTopBar
 import com.thelightphone.sdk.ui.LightTopBarCenter
 import com.thelightphone.sdk.ui.gridUnitsAsDp
 
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 /**
  * ViewModel containing the data and behavior for HomeScreen.
- * Use for screen-specific state and behavior
+ * - screen-specific state and behavior
+ * - managing data persistence asynchronously using Jetpack DataStore via the shared [SettingsRepository].
  */
-class HomeScreenViewModel : LightViewModel<Unit>() {
-    private val _apiKey = MutableStateFlow("")
-    val apiKey: StateFlow<String> = _apiKey.asStateFlow()
+class HomeScreenViewModel(
+    private val dataStore: DataStore<Preferences>
+) : LightViewModel<Unit>() {
 
+    // Read the API key as a StateFlow, defaulting to empty string if not yet set.
+    val apiKey: StateFlow<String> = SettingsRepository.apiKeyFlow(dataStore)
+        .stateIn( // convert the ordinary Flow into a StateFlow
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = ""
+        )
+
+    /**
+     * Persist AeroDataBox API key to local disk. 
+     * @param value The plaintext string token to persist.
+     */
     fun setApiKey(value: String) {
-        _apiKey.value = value
+        viewModelScope.launch {
+            SettingsRepository.setApiKey(dataStore, value)
+        }
     }
 }
 
@@ -52,22 +71,17 @@ class HomeScreen(
     override val viewModelClass: Class<HomeScreenViewModel>
         get() = HomeScreenViewModel::class.java
 
-    // Create the ViewModel used by this screen.
+    // Create the ViewModel, passing the SDK-provided DataStore from lightContext.
     override fun createViewModel(): HomeScreenViewModel {
-        return HomeScreenViewModel()
+        return HomeScreenViewModel(lightContext.dataStore)
     }
 
     // Defines the UI for this screen using Jetpack Compose.
     @Composable
     override fun Content() {
 
-        // Collect the current Light Phone theme colors.
-        //
-        // Keeping this reactive means the UI will automatically update
-        // if the theme changes.
-        val themeColors by LightThemeController.colors.collectAsState()
-
         val apiKeyValue by viewModel.apiKey.collectAsState()
+        val themeColors by LightThemeController.colors.collectAsState()
         
         // Apply the Light Phone theme to everything inside this block.
         LightTheme(colors = themeColors) {
