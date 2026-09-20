@@ -100,7 +100,7 @@ class HomeScreen(
                     LightTextField(
                         label = "AeroDataBox RapidAPI Key:",
                         value = apiKeyValue,
-                        placeholder = "API key",
+                        placeholder = "",
                         onClick = {
                             val editorRequest = EditorRequest(
                                 title = "AeroDataBox RapidAPI Key",
