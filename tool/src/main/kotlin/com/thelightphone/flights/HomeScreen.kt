@@ -80,7 +80,6 @@ class HomeScreen(
                     .background(LightThemeTokens.colors.background)
             ) {
 
-                // App title.
                 LightTopBar(
                     center = LightTopBarCenter.Text("Flights"),
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
