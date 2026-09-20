@@ -97,8 +97,6 @@ class HomeScreen(
                         .padding(horizontal = 1f.gridUnitsAsDp()),
                 ) {
 
-                    // Briefly explains what Flights does and how it accesses
-                    // flight data.
                     LightText(
                         text = "Track live flight statuses.",
                         variant = LightTextVariant.Paragraph,
