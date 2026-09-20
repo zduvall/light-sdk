@@ -83,7 +83,7 @@ class HomeScreen(
                 LightTopBar(
                     center = LightTopBarCenter.Text("Flights"),
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
-                )                
+                )
 
                 LightScrollView(
                     modifier = Modifier
