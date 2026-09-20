@@ -102,13 +102,12 @@ class HomeScreen(
                     LightText(
                         text = "Track live flight statuses.",
                         variant = LightTextVariant.Paragraph,
-                        lighten = true,
                         modifier = Modifier.padding(vertical = 0.75f.gridUnitsAsDp()),                        
                     )
                     LightTextField(
                         label = "AeroDataBox RapidAPI Key:",
                         value = apiKeyValue,
-                        placeholder = "Your AeroDataBox RapidAPI key",
+                        placeholder = "API key",
                         onClick = {
                             val editorRequest = EditorRequest(
                                 title = "AeroDataBox RapidAPI Key",
@@ -122,7 +121,10 @@ class HomeScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 1f.gridUnitsAsDp()),
+                            .padding(
+                                horizontal = 1f.gridUnitsAsDp(),
+                                vertical = 0.75f.gridUnitsAsDp()
+                            ),
                     )
                     LightText(
                         text = "An AeroDataBox RapidAPI key is required to use this app. To retrieve an API key, sign up on RapidAPI and create a new key for AeroDataBox.",
