@@ -74,13 +74,9 @@ class HomeScreen(
         // Apply the Light Phone theme to everything inside this block.
         LightTheme(colors = themeColors) {
 
-            // Column lays its children out vertically.
             Column(
                 modifier = Modifier
-                    // Fill the available screen.
                     .fillMaxSize()
-
-                    // Use the background color from the Light Phone theme.
                     .background(LightThemeTokens.colors.background)
             ) {
 
