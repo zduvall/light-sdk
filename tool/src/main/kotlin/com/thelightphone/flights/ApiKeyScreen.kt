@@ -101,11 +101,11 @@ class ApiKeyScreen(
                 ) {
 
                     LightText(
-                        text = "Track live flight statuses.",
+                        text = "Provide your AeroDataBox RapidAPI key to start searching for flights.",
                         variant = LightTextVariant.Paragraph,
                     )
                     LightTextField(
-                        label = "AeroDataBox RapidAPI Key:",
+                        label = "API Key:",
                         value = apiKeyValue,
                         placeholder = "",
                         onClick = {
@@ -132,7 +132,7 @@ class ApiKeyScreen(
                             .padding(bottom = 0.75f.gridUnitsAsDp())
                     )
                     LightText(
-                        text = "An AeroDataBox RapidAPI key is required to use this app. To retrieve an API key, sign up on RapidAPI and create a new key for AeroDataBox.",
+                        text = "An API key can be retrieved by visiting https://rapidapi.com/ and creating a new key for \"AeroDataBox\".",
                         variant = LightTextVariant.Superfine,
                         lighten = true,
                     )
