@@ -31,6 +31,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 
 /**
  * ViewModel containing the data and behavior for ApiKeyScreen. Manages data
@@ -53,11 +55,15 @@ class ApiKeyScreenViewModel(
      * @param value The plaintext string token to persist.
      */
     fun setApiKey(value: String) {
-        viewModelScope.launch {
-            SettingsRepository.setApiKey(dataStore, value)
+            viewModelScope.launch {
+                // NonCancellable ensures that the DataStore write completes
+                // even if the ViewModel is destroyed by navigating away
+                withContext(NonCancellable) {
+                    SettingsRepository.setApiKey(dataStore, value)
+                }
+            }
         }
     }
-}
 
 class ApiKeyScreen(
     sealedActivity: SealedLightActivity
