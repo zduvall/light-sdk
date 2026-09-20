@@ -16,6 +16,8 @@ import androidx.lifecycle.viewModelScope
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
+import com.thelightphone.sdk.ui.LightBarButton
+import com.thelightphone.sdk.ui.LightIcons
 import com.thelightphone.sdk.ui.LightScrollView
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextField
@@ -96,6 +98,14 @@ class ApiKeyScreen(
 
                 LightTopBar(
                     center = LightTopBarCenter.Text("API Setup"),
+                    leftButton = if (apiKeyValue.isNotBlank()) {
+                        LightBarButton.LightIcon(
+                            icon = LightIcons.BACK,
+                            onClick = { goBack() }
+                        )
+                    } else {
+                        null
+                    },
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
                 )
 
@@ -118,7 +128,6 @@ class ApiKeyScreen(
                             val editorRequest = EditorRequest(
                                 title = "AeroDataBox RapidAPI Key",
                                 initialValue = apiKeyValue,
-                                initialCaps = apiKeyValue.isBlank(),
                             )
                             navigateTo(
                                 screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
