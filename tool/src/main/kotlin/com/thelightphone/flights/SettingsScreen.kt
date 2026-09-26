@@ -69,25 +69,20 @@ class SettingsScreen(
     sealedActivity: SealedLightActivity
 ) : LightScreen<Unit, ApiKeyScreenViewModel>(sealedActivity) {
 
-    // Tell LightScreen which ViewModel belongs to this screen.
     override val viewModelClass: Class<ApiKeyScreenViewModel>
         get() = ApiKeyScreenViewModel::class.java
 
-    // Create the ViewModel, passing the SDK-provided DataStore from lightContext.
     override fun createViewModel(): ApiKeyScreenViewModel {
         return ApiKeyScreenViewModel(lightContext.dataStore)
     }
 
-    // Defines the UI for this screen using Jetpack Compose.
     @Composable
     override fun Content() {
 
         val apiKeyValue by viewModel.apiKey.collectAsState()
         val themeColors by LightThemeController.colors.collectAsState()
         
-        // Apply the Light Phone theme to everything inside this block.
         LightTheme(colors = themeColors) {
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -99,57 +94,49 @@ class SettingsScreen(
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
                 )
 
-                LightScrollView(
+                LightText(
+                    text = "Provide your AeroDataBox RapidAPI key to start searching for flights.",
+                    variant = LightTextVariant.Paragraph,
+                )
+                LightTextField(
+                    label = "API Key:",
+                    value = apiKeyValue,
+                    placeholder = "",
+                    onClick = {
+                        val editorRequest = EditorRequest(
+                            title = "AeroDataBox RapidAPI Key",
+                            initialValue = apiKeyValue,
+                        )
+                        navigateTo(
+                            screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
+                            resultCallback = viewModel::setApiKey
+                        )
+                    },
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxWidth()
-                        .padding(horizontal = 1f.gridUnitsAsDp()),
-                ) {
-
-                    LightText(
-                        text = "Provide your AeroDataBox RapidAPI key to start searching for flights.",
-                        variant = LightTextVariant.Paragraph,
-                    )
-                    LightTextField(
-                        label = "API Key:",
-                        value = apiKeyValue,
-                        placeholder = "",
-                        onClick = {
-                            val editorRequest = EditorRequest(
-                                title = "AeroDataBox RapidAPI Key",
-                                initialValue = apiKeyValue,
-                            )
-                            navigateTo(
-                                screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
-                                resultCallback = viewModel::setApiKey
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 0.75f.gridUnitsAsDp())
-                    )
-                    LightText(
-                        text = """
-                            To obtain an API key, create an account on RapidAPI
-                            and subscribe to the "AeroDataBox" service. As of
-                            September 2026, a free tier is available offering up
-                            to 1,600 requests and 400 API units monthly, which
-                            should be sufficient for regular personal use. For
-                            the latest rate limits and pricing, visit
-                            https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing.
-                        """.trimIndent().replace("\n", " "),
-                        variant = LightTextVariant.Superfine,
-                        lighten = true,
-                    )
-                    
-                    BottomBar(
-                        active = FlightsTab.Settings,
-                        onHistory = { navigateTo(screenFactory = { HistoryScreen(it) }) },
-                        onSearch = { navigateTo(screenFactory = { FlightsSearchScreen(it) }) },
-                        onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
-                        onSettings = { /* Already on settings screen */ }
-                    )                    
-                }
+                        .padding(bottom = 0.75f.gridUnitsAsDp())
+                )
+                LightText(
+                    text = """
+                        To obtain an API key, create an account on RapidAPI
+                        and subscribe to the "AeroDataBox" service. As of
+                        September 2026, a free tier is available offering up
+                        to 1,600 requests and 400 API units monthly, which
+                        should be sufficient for regular personal use. For
+                        the latest rate limits and pricing, visit
+                        https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing.
+                    """.trimIndent().replace("\n", " "),
+                    variant = LightTextVariant.Superfine,
+                    lighten = true,
+                )
+                
+                BottomBar(
+                    active = FlightsTab.Settings,
+                    onHistory = { navigateTo(screenFactory = { HistoryScreen(it) }) },
+                    onSearch = { navigateTo(screenFactory = { FlightsSearchScreen(it) }) },
+                    onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
+                    onSettings = { /* Already on settings screen */ }
+                )                    
             }
         }
     }
