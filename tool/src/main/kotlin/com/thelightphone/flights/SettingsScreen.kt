@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.viewModelScope
@@ -107,6 +108,7 @@ class SettingsScreen(
                     https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing.
                 """.trimIndent().replace("\n", " "),
                 variant = LightTextVariant.Superfine,
+                align = TextAlign.Justify,
                 lighten = true,
             )
         }

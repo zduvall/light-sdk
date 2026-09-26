@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.thelightphone.sdk.SealedLightActivity
 import com.thelightphone.sdk.SimpleLightScreen
 import com.thelightphone.sdk.ui.LightScrollView
+import com.thelightphone.sdk.ui.LightScrollBarPosition
 import com.thelightphone.sdk.ui.LightTheme
 import com.thelightphone.sdk.ui.LightThemeController
 import com.thelightphone.sdk.ui.LightThemeTokens
@@ -49,6 +50,7 @@ fun TabScaffold(
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(horizontal = 1f.gridUnitsAsDp()),
+                scrollBarPosition = LightScrollBarPosition.Inside,
                 content = content,
             )
 
