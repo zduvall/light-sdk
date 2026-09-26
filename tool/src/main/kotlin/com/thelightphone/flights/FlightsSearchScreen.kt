@@ -8,12 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-
+import com.thelightphone.flights.BottomBar
+import com.thelightphone.flights.FlightsTab
+import com.thelightphone.flights.HistoryScreen
+import com.thelightphone.flights.HomeScreen
+import com.thelightphone.flights.ApiKeyScreen
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
-import com.thelightphone.sdk.ui.LightBarButton
-import com.thelightphone.sdk.ui.LightIcons
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextVariant
 import com.thelightphone.sdk.ui.LightTheme
@@ -24,7 +26,7 @@ import com.thelightphone.sdk.ui.LightTopBarCenter
 import com.thelightphone.sdk.ui.gridUnitsAsDp
 
 /**
- * ViewModel containing the data and behavior for the main Flights Search Screen.
+ * Flights Search Screen.
  */
 class FlightsSearchScreenViewModel : LightViewModel<Unit>()
 
@@ -50,16 +52,7 @@ class FlightsSearchScreen(
                     .background(LightThemeTokens.colors.background)
             ) {
                 LightTopBar(
-                    center = LightTopBarCenter.Text("Flights"),
-                    rightButton = LightBarButton.LightIcon(
-                        icon = LightIcons.SETTINGS,
-                        onClick = {
-                            // navigate to api key screen
-                            navigateTo(
-                                screenFactory = { ApiKeyScreen(it) }
-                            )
-                        }
-                    ),                        
+                    center = LightTopBarCenter.Text("Flights"),                       
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
                 )
                 
@@ -67,6 +60,14 @@ class FlightsSearchScreen(
                     text = "Flights Search Placeholder",
                     variant = LightTextVariant.Paragraph,
                     modifier = Modifier.padding(horizontal = 1f.gridUnitsAsDp())
+                )
+                
+                BottomBar(
+                    active = FlightsTab.Search,
+                    onHistory = { navigateTo(screenFactory = { HistoryScreen(it) }) },
+                    onSearch = { /* Already on search screen */ },
+                    onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
+                    onSettings = { navigateTo(screenFactory = { ApiKeyScreen(it) }) }
                 )
             }
         }
