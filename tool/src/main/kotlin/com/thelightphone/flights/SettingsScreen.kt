@@ -24,10 +24,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * ViewModel containing the data and behavior for ApiKeyScreen. Manages data
+ * ViewModel containing the data and behavior for SettingsScreen. Manages data
  * persistence asynchronously via shared [SettingsRepository].
  */
-class ApiKeyScreenViewModel(
+class SettingsScreenViewModel(
     private val dataStore: DataStore<Preferences>
 ) : LightViewModel<Unit>() {
 
@@ -56,13 +56,13 @@ class ApiKeyScreenViewModel(
 
 class SettingsScreen(
     sealedActivity: SealedLightActivity
-) : LightScreen<Unit, ApiKeyScreenViewModel>(sealedActivity) {
+) : LightScreen<Unit, SettingsScreenViewModel>(sealedActivity) {
 
-    override val viewModelClass: Class<ApiKeyScreenViewModel>
-        get() = ApiKeyScreenViewModel::class.java
+    override val viewModelClass: Class<SettingsScreenViewModel>
+        get() = SettingsScreenViewModel::class.java
 
-    override fun createViewModel(): ApiKeyScreenViewModel {
-        return ApiKeyScreenViewModel(lightContext.dataStore)
+    override fun createViewModel(): SettingsScreenViewModel {
+        return SettingsScreenViewModel(lightContext.dataStore)
     }
 
     @Composable

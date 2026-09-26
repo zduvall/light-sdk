@@ -26,7 +26,7 @@ class SearchScreen(
     @Composable
     override fun Content() {
         TabScaffold(
-            title = "Flights",
+            title = "Search",
             activeTab = FlightsTab.Search,
             onNavigate = { navigateTo(it) },
         ) {
