@@ -53,9 +53,8 @@ fun BottomBar(
                 description = config.title,
                 active = active == config.tab,
                 onClick = {
-                    if (active != config.tab) {
-                        onNavigate(config.screenFactory)
-                    }
+                    if (active == config.tab) return@flightsNavIcon
+                    onNavigate(config.screenFactory)
                 }
             )
         }
