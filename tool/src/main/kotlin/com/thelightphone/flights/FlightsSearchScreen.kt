@@ -8,11 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.thelightphone.flights.BottomBar
-import com.thelightphone.flights.FlightsTab
-import com.thelightphone.flights.HistoryScreen
-import com.thelightphone.flights.HomeScreen
-import com.thelightphone.flights.ApiKeyScreen
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
@@ -67,7 +62,7 @@ class FlightsSearchScreen(
                     onHistory = { navigateTo(screenFactory = { HistoryScreen(it) }) },
                     onSearch = { /* Already on search screen */ },
                     onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
-                    onSettings = { navigateTo(screenFactory = { ApiKeyScreen(it) }) }
+                    onSettings = { navigateTo(screenFactory = { SettingsScreen(it) }) }
                 )
             }
         }

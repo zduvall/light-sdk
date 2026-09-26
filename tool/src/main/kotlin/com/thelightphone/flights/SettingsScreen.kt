@@ -65,7 +65,7 @@ class ApiKeyScreenViewModel(
         }
     }
 
-class ApiKeyScreen(
+class SettingsScreen(
     sealedActivity: SealedLightActivity
 ) : LightScreen<Unit, ApiKeyScreenViewModel>(sealedActivity) {
 

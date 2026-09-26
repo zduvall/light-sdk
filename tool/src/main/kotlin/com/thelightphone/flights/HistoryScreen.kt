@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
-import com.thelightphone.sdk.ui.LightIcons
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextVariant
 import com.thelightphone.sdk.ui.LightTheme
@@ -64,7 +63,7 @@ class HistoryScreen(
                     onHistory = { /* Already on history screen */ },
                     onSearch = { navigateTo(screenFactory = { FlightsSearchScreen(it) }) },
                     onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
-                    onSettings = { navigateTo(screenFactory = { ApiKeyScreen(it) }) }
+                    onSettings = { navigateTo(screenFactory = { SettingsScreen(it) }) }
                 )                
             }
         }

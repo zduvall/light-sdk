@@ -65,7 +65,7 @@ class HomeScreen(
                     onHistory = { navigateTo(screenFactory = { HistoryScreen(it) }) },
                     onSearch = { navigateTo(screenFactory = { FlightsSearchScreen(it) }) },
                     onHome = { /* Already on home screen */ },
-                    onSettings = { navigateTo(screenFactory = { ApiKeyScreen(it) }) }
+                    onSettings = { navigateTo(screenFactory = { SettingsScreen(it) }) }
                 )        
             }
         }
