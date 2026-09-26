@@ -95,7 +95,7 @@ class SettingsScreen(
             ) {
 
                 LightTopBar(
-                    center = LightTopBarCenter.Text("Flights API Setup"),
+                    center = LightTopBarCenter.Text("Settings"),
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
                 )
 
