@@ -121,9 +121,7 @@ class ApiKeyScreen(
                             )
                             navigateTo(
                                 screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
-                                resultCallback = { enteredKey ->
-                                    viewModel.setApiKey(enteredKey) 
-                                }
+                                resultCallback = viewModel::setApiKey
                             )
                         },
                         modifier = Modifier
