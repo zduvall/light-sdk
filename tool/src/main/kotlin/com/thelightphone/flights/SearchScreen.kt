@@ -25,17 +25,17 @@ import com.thelightphone.sdk.ui.gridUnitsAsDp
 /**
  * Flights Search Screen.
  */
-class FlightsSearchScreenViewModel : LightViewModel<Unit>()
+class SearchScreenViewModel : LightViewModel<Unit>()
 
-class FlightsSearchScreen(
+class SearchScreen(
     sealedActivity: SealedLightActivity
-) : LightScreen<Unit, FlightsSearchScreenViewModel>(sealedActivity) {
+) : LightScreen<Unit, SearchScreenViewModel>(sealedActivity) {
 
-    override val viewModelClass: Class<FlightsSearchScreenViewModel>
-        get() = FlightsSearchScreenViewModel::class.java
+    override val viewModelClass: Class<SearchScreenViewModel>
+        get() = SearchScreenViewModel::class.java
 
-    override fun createViewModel(): FlightsSearchScreenViewModel {
-        return FlightsSearchScreenViewModel()
+    override fun createViewModel(): SearchScreenViewModel {
+        return SearchScreenViewModel()
     }
 
     @Composable

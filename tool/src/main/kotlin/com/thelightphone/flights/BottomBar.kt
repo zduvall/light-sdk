@@ -30,7 +30,7 @@ private data class TabConfig(
 
 private val tabs = listOf(
     TabConfig(FlightsTab.Home, LightIcons.AIRPLANE, "Home", ::HomeScreen),
-    TabConfig(FlightsTab.Search, LightIcons.SEARCH, "Search", ::FlightsSearchScreen),
+    TabConfig(FlightsTab.Search, LightIcons.SEARCH, "Search", ::SearchScreen),
     TabConfig(FlightsTab.History, LightIcons.LIST, "History", ::HistoryScreen),
     TabConfig(FlightsTab.Settings, LightIcons.SETTINGS, "Settings", ::SettingsScreen),
 )
