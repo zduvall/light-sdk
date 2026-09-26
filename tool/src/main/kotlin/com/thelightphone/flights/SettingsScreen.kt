@@ -108,6 +108,11 @@ class SettingsScreen(
                     https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing.
                 """.trimIndent().replace("\n", " "),
                 variant = LightTextVariant.Superfine,
+                modifier = Modifier.padding(
+                    start = 0.75f.gridUnitsAsDp(),
+                    end = 0.75f.gridUnitsAsDp(),
+                    bottom = 0.75f.gridUnitsAsDp()
+                ),
                 align = TextAlign.Justify,
                 lighten = true,
             )
