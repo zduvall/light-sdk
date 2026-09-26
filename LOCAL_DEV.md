@@ -4,6 +4,8 @@
 
 Quick reference for building, running, and testing tools locally on my machine.
 
+NOTE: `// REF-agp9-build-fixes` marks changes I made to avoid kotlin build errors in my local setup.
+
 ---
 
 ## 1. Emulator Setup (One-Time Setup)
