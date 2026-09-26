@@ -88,47 +88,53 @@ class SettingsScreen(
                     .fillMaxSize()
                     .background(LightThemeTokens.colors.background)
             ) {
-
                 LightTopBar(
                     center = LightTopBarCenter.Text("Settings"),
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
                 )
 
-                LightText(
-                    text = "Provide your AeroDataBox RapidAPI key to start searching for flights.",
-                    variant = LightTextVariant.Paragraph,
-                )
-                LightTextField(
-                    label = "API Key:",
-                    value = apiKeyValue,
-                    placeholder = "",
-                    onClick = {
-                        val editorRequest = EditorRequest(
-                            title = "AeroDataBox RapidAPI Key",
-                            initialValue = apiKeyValue,
-                        )
-                        navigateTo(
-                            screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
-                            resultCallback = viewModel::setApiKey
-                        )
-                    },
+                LightScrollView(
                     modifier = Modifier
+                        .weight(1f)
                         .fillMaxWidth()
-                        .padding(bottom = 0.75f.gridUnitsAsDp())
-                )
-                LightText(
-                    text = """
-                        To obtain an API key, create an account on RapidAPI
-                        and subscribe to the "AeroDataBox" service. As of
-                        September 2026, a free tier is available offering up
-                        to 1,600 requests and 400 API units monthly, which
-                        should be sufficient for regular personal use. For
-                        the latest rate limits and pricing, visit
-                        https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing.
-                    """.trimIndent().replace("\n", " "),
-                    variant = LightTextVariant.Superfine,
-                    lighten = true,
-                )
+                        .padding(horizontal = 1f.gridUnitsAsDp())
+                ) {                    
+                    LightText(
+                        text = "Provide your AeroDataBox RapidAPI key to start searching for flights.",
+                        variant = LightTextVariant.Paragraph,
+                    )
+                    LightTextField(
+                        label = "API Key:",
+                        value = apiKeyValue,
+                        placeholder = "",
+                        onClick = {
+                            val editorRequest = EditorRequest(
+                                title = "AeroDataBox RapidAPI Key",
+                                initialValue = apiKeyValue,
+                            )
+                            navigateTo(
+                                screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
+                                resultCallback = viewModel::setApiKey
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 0.75f.gridUnitsAsDp())
+                    )
+                    LightText(
+                        text = """
+                            To obtain an API key, create an account on RapidAPI
+                            and subscribe to the "AeroDataBox" service. As of
+                            September 2026, a free tier is available offering up
+                            to 1,600 requests and 400 API units monthly, which
+                            should be sufficient for regular personal use. For
+                            the latest rate limits and pricing, visit
+                            https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing.
+                        """.trimIndent().replace("\n", " "),
+                        variant = LightTextVariant.Superfine,
+                        lighten = true,
+                    )
+                }
                 
                 BottomBar(
                     active = FlightsTab.Settings,

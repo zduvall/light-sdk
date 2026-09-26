@@ -3,6 +3,7 @@ package com.thelightphone.flights
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,6 +14,7 @@ import com.thelightphone.sdk.InitialScreen
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
+import com.thelightphone.sdk.ui.LightScrollView
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextVariant
 import com.thelightphone.sdk.ui.gridUnitsAsDp
@@ -54,11 +56,17 @@ class HomeScreen(
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),                        
                 )
                 
-                LightText(
-                    text = "Home Placeholder",
-                    variant = LightTextVariant.Paragraph,
-                    modifier = Modifier.padding(horizontal = 1f.gridUnitsAsDp())
-                )                
+                LightScrollView(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(horizontal = 1f.gridUnitsAsDp())
+                ) {
+                    LightText(
+                        text = "Home Placeholder",
+                        variant = LightTextVariant.Paragraph,
+                    )
+                }
                 
                 BottomBar(
                     active = FlightsTab.Home,
