@@ -16,8 +16,6 @@ import androidx.lifecycle.viewModelScope
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
-import com.thelightphone.sdk.ui.LightBarButton
-import com.thelightphone.sdk.ui.LightIcons
 import com.thelightphone.sdk.ui.LightScrollView
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextField
@@ -98,14 +96,6 @@ class ApiKeyScreen(
 
                 LightTopBar(
                     center = LightTopBarCenter.Text("Flights API Setup"),
-                    leftButton = if (apiKeyValue.isNotBlank()) {
-                        LightBarButton.LightIcon(
-                            icon = LightIcons.BACK,
-                            onClick = { goBack() }
-                        )
-                    } else {
-                        null
-                    },
                     modifier = Modifier.padding(bottom = 1f.gridUnitsAsDp()),
                 )
 
@@ -132,13 +122,7 @@ class ApiKeyScreen(
                             navigateTo(
                                 screenFactory = { TextInputEditorScreen(it, editorRequest) },                             
                                 resultCallback = { enteredKey ->
-                                    viewModel.setApiKey(enteredKey) // save the key
-                                    
-                                    if (enteredKey.isBlank()) { 
-                                        return@navigateTo // if no text, exit early
-                                    }
-                                    
-                                    goBack() // if typed something, go to previous screen
+                                    viewModel.setApiKey(enteredKey) 
                                 }
                             )
                         },
@@ -159,6 +143,14 @@ class ApiKeyScreen(
                         variant = LightTextVariant.Superfine,
                         lighten = true,
                     )
+                    
+                    BottomBar(
+                        active = FlightsTab.Settings,
+                        onHistory = { navigateTo(screenFactory = { HistoryScreen(it) }) },
+                        onSearch = { navigateTo(screenFactory = { FlightsSearchScreen(it) }) },
+                        onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
+                        onSettings = { /* Already on settings screen */ }
+                    )                    
                 }
             }
         }
