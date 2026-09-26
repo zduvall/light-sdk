@@ -60,11 +60,8 @@ class HistoryScreen(
                 
                 BottomBar(
                     active = FlightsTab.History,
-                    onHistory = { /* Already on history screen */ },
-                    onSearch = { navigateTo(screenFactory = { FlightsSearchScreen(it) }) },
-                    onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
-                    onSettings = { navigateTo(screenFactory = { SettingsScreen(it) }) }
-                )                
+                    onNavigate = { navigateTo(it) },
+                )
             }
         }
     }

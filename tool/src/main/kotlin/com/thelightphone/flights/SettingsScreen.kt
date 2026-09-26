@@ -132,11 +132,8 @@ class SettingsScreen(
                 
                 BottomBar(
                     active = FlightsTab.Settings,
-                    onHistory = { navigateTo(screenFactory = { HistoryScreen(it) }) },
-                    onSearch = { navigateTo(screenFactory = { FlightsSearchScreen(it) }) },
-                    onHome = { navigateTo(screenFactory = { HomeScreen(it) }) },
-                    onSettings = { /* Already on settings screen */ }
-                )                    
+                    onNavigate = { navigateTo(it) },
+                )
             }
         }
     }
