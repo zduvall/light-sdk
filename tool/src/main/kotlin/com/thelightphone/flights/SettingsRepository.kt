@@ -52,4 +52,13 @@ class SettingsRepository(
             prefs[unitsReset] = limits.unitsReset
         }
     }
+
+    suspend fun clearUsageLimits() {
+        dataStore.edit { prefs ->
+            prefs.remove(requestsRemaining)
+            prefs.remove(requestsReset)
+            prefs.remove(unitsRemaining)
+            prefs.remove(unitsReset)
+        }
+    }
 }

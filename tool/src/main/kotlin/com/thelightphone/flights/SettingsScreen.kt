@@ -14,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import com.thelightphone.sdk.LightScreen
 import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
+import com.thelightphone.sdk.SimpleLightScreen
 import com.thelightphone.sdk.ui.lightClickable
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextField
@@ -79,6 +80,15 @@ class SettingsScreenViewModel(
             }
         }
     }
+
+    /** Clear persisted usage limits from local disk. */
+    fun clearUsageLimits() {
+        viewModelScope.launch {
+            withContext(NonCancellable) {
+                settingsRepository.clearUsageLimits()
+            }
+        }
+    }
     
     fun fetchAndSetUsageLimits() {
         isLoading = true
@@ -113,6 +123,13 @@ class SettingsScreenViewModel(
                 isLoading = false
             }
         }
+    }
+
+    override fun onScreenShow(screen: SimpleLightScreen<Unit>) {
+        super.onScreenShow(screen)
+        // Clear previous error message & usage
+        errorMessage = null
+        clearUsageLimits()
     }
 }
 
