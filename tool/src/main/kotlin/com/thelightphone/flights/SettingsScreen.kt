@@ -98,6 +98,13 @@ class SettingsScreenViewModel(
                     is ApiResult.Error.RateLimited -> {
                         errorMessage = "Rate limit exceeded. Please try again later."
                     }
+                    // Comment in for debugging HTTP and network errors:
+                    // is ApiResult.Error.Http -> {
+                    //     errorMessage = "HTTP ${result.code}: ${result.message}"
+                    // }
+                    // is ApiResult.Error.Network -> {
+                    //     errorMessage = "Network error: ${result.throwable.localizedMessage ?: result.throwable.message ?: "Unknown error"}"
+                    // }                    
                     else -> {
                         errorMessage = "An error occurred while fetching usage limits. Please try again."
                     }
