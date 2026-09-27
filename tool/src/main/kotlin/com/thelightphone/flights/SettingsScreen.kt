@@ -198,47 +198,67 @@ class SettingsScreen(
                 align = TextAlign.Justify,
                 lighten = true,
             )
-            
-            // Button to check API key and fetch usage limits
-            LightText(
-                text = "Check API Key",
-                variant = LightTextVariant.Copy,
-                modifier = Modifier
-                    .padding(bottom = 0.5f.gridUnitsAsDp())
-                    .lightClickable(
-                        onClick = { viewModel.fetchAndSetUsageLimits() },
-                        enabled = !viewModel.isLoading
-                    ),
-                lighten = viewModel.isLoading,
-            )
-            
-            // Determine status text from loading/error/usage limits
-            val limits = currentLimits
-            val statusText = when {
-                viewModel.isLoading -> "Loading..."
-                viewModel.errorMessage != null -> viewModel.errorMessage
-                limits != null -> {
-                    "Requests Remaining: ${limits.requestsRemaining}\n" +
-                    "Requests Reset: ${limits.requestsReset}\n" +
-                    "Units Remaining: ${limits.unitsRemaining}\n" +
-                    "Units Reset: ${limits.unitsReset}"
-                }
-                else -> null
-            }
-            
-            statusText?.let { text ->
-                LightText(
-                    text = text,
-                    variant = LightTextVariant.Fine,
-                    modifier = Modifier.padding(
-                        start = 0.75f.gridUnitsAsDp(),
-                        end = 0.75f.gridUnitsAsDp(),
-                        bottom = 0.75f.gridUnitsAsDp()
-                    ),
-                    align = TextAlign.Justify,
-                    lighten = true,
+
+            if (apiKeyValue.isNotEmpty()) {
+                ApiKeyStatus(
+                    isLoading = viewModel.isLoading,
+                    errorMessage = viewModel.errorMessage,
+                    usageLimits = currentLimits,
+                    onCheckKey = viewModel::fetchAndSetUsageLimits,
                 )
             }
         }
+    }
+}
+
+/**
+ * Displays the "Check API Key" button and a status line showing
+ * loading state, error messages, or fetched usage limits.
+ */
+@Composable
+private fun ApiKeyStatus(
+    isLoading: Boolean,
+    errorMessage: String?,
+    usageLimits: UsageLimits?,
+    onCheckKey: () -> Unit,
+) {
+    // Button to check API key and fetch usage limits
+    LightText(
+        text = "Check API Key",
+        variant = LightTextVariant.Copy,
+        modifier = Modifier
+            .padding(bottom = 0.5f.gridUnitsAsDp())
+            .lightClickable(
+                onClick = onCheckKey,
+                enabled = !isLoading
+            ),
+        lighten = isLoading,
+    )
+
+    // Determine status text from loading/error/usage limits
+    val statusText = when {
+        isLoading -> "Loading..."
+        errorMessage != null -> errorMessage
+        usageLimits != null -> {
+            "Requests Remaining: ${usageLimits.requestsRemaining}\n" +
+            "Requests Reset: ${usageLimits.requestsReset}\n" +
+            "Units Remaining: ${usageLimits.unitsRemaining}\n" +
+            "Units Reset: ${usageLimits.unitsReset}"
+        }
+        else -> null
+    }
+
+    statusText?.let { text ->
+        LightText(
+            text = text,
+            variant = LightTextVariant.Fine,
+            modifier = Modifier.padding(
+                start = 0.75f.gridUnitsAsDp(),
+                end = 0.75f.gridUnitsAsDp(),
+                bottom = 0.75f.gridUnitsAsDp()
+            ),
+            align = TextAlign.Justify,
+            lighten = true,
+        )
     }
 }
