@@ -26,6 +26,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.Instant
+import java.time.ZoneId
 
 
 /**
@@ -240,10 +243,12 @@ private fun ApiKeyStatus(
         isLoading -> "Loading..."
         errorMessage != null -> errorMessage
         usageLimits != null -> {
+            val requestsResetDate = dateFromNowPlusSeconds(usageLimits.requestsReset)
+            val unitsResetDate = dateFromNowPlusSeconds(usageLimits.unitsReset)
             "Requests Remaining: ${usageLimits.requestsRemaining}\n" +
-            "Requests Reset: ${usageLimits.requestsReset}\n" +
+            "Requests Reset: $requestsResetDate\n" +
             "Units Remaining: ${usageLimits.unitsRemaining}\n" +
-            "Units Reset: ${usageLimits.unitsReset}"
+            "Units Reset: $unitsResetDate"
         }
         else -> null
     }
@@ -261,4 +266,10 @@ private fun ApiKeyStatus(
             lighten = true,
         )
     }
+}
+
+/** Returns [LocalDate] that is [seconds] from now (formatted as yyyy-mm-dd) */
+private fun dateFromNowPlusSeconds(seconds: Long): LocalDate {
+    val zone = ZoneId.systemDefault()
+    return Instant.now().plusSeconds(seconds).atZone(zone).toLocalDate()
 }
