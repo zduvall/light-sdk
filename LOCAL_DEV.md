@@ -45,12 +45,17 @@ _Sets the screen to 1080x1240 (~420 dpi) to match the Light Phone III form facto
 Start the emulator with writable system partitions and custom ADB path:
 
 ```bash
-emulator -avd LightPhone3 -writable-system -adb-path ~/.nix-profile/bin/adb
+emulator \
+  -avd LightPhone3 \
+  -writable-system \
+  -adb-path ~/.nix-profile/bin/adb \
+  -dns-server 8.8.8.8,1.1.1.1
 ```
 
 - **`-avd LightPhone3`**: Specifies which virtual device to launch.
 - **`-writable-system`**: Enables write access to the `/system` partition (required if running the LightOS system app).
 - **`-adb-path ~/.nix-profile/bin/adb`**: Informs the emulator GUI where your `adb` binary is located.
+- **`-dns-server 8.8.8.8,1.1.1.1`**: Configures explicit public DNS servers (Google & Cloudflare) for the emulator; prevents DNS lookup failures on macOS where default host DNS bridging can fail.
 
 ---
 
@@ -63,7 +68,10 @@ Once the emulator is running and connected (verify with `adb devices`):
 Compile your changes, install the updated APK, and force-restart the app on the running emulator with a single command:
 
 ```bash
-./gradlew :tool:installDebug && adb shell am start -S -n com.thelightphone.flights/com.thelightphone.sdk.LightActivity
+./gradlew :tool:installDebug && \
+  adb shell am start \
+    -S \
+    -n com.thelightphone.flights/com.thelightphone.sdk.LightActivity
 ```
 
 - `./gradlew :tool:installDebug`: Compiles the :tool module and installs the new debug build onto the active emulator.
