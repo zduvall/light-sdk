@@ -42,7 +42,7 @@ class SettingsScreenViewModel(
 
     // Expose the persisted API key as UI state.
     val apiKey: StateFlow<String> = settingsRepository.apiKeyFlow
-        .stateIn( // convert the ordinary Flow into a StateFlow
+        .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = ""
