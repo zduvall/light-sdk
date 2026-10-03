@@ -98,3 +98,10 @@ class SearchScreen(
         }
     }
 }
+
+/**
+ * Standardizes flight number by removing whitespace & converting to lowercase.
+ */
+fun standardizeFlightNumber(flightNumber: String): String {
+    return flightNumber.replace("\\s".toRegex(), "").lowercase()
+}
