@@ -23,7 +23,7 @@ class SettingsRepository(
     private val requestsResetKey = longPreferencesKey("requests_reset")
     private val unitsRemainingKey = intPreferencesKey("units_remaining")
     private val unitsResetKey = longPreferencesKey("units_reset")
-    
+
     val apiKeyFlow: Flow<String> = dataStore.data.map { it[rapidApiKey] ?: "" }
 
     val usageLimitsFlow: Flow<UsageLimits?> = dataStore.data.map { prefs ->
