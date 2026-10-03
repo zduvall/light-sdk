@@ -12,7 +12,7 @@ class FlightsRepository(
     private val dataStore: DataStore<Preferences>
 ) {
     private val latestSearchKey = stringPreferencesKey("latest_search")
-    
+
     val latestSearchFlow: Flow<String> = dataStore.data.map { it[latestSearchKey] ?: "" }
 
     suspend fun setLatestSearch(value: String) {
