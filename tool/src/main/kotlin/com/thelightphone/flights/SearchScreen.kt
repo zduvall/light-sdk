@@ -93,7 +93,7 @@ class SearchScreen(
                     .fillMaxWidth()
                     .padding(bottom = 0.75f.gridUnitsAsDp())
 
-            )            
+            )
 
         }
     }
