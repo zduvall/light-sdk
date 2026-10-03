@@ -18,47 +18,47 @@ data class UsageLimits(
 class SettingsRepository(
     private val dataStore: DataStore<Preferences>
 ) {
-    private val apiKeyPref = stringPreferencesKey("rapid_api_key")
-    private val requestsRemaining = intPreferencesKey("requests_remaining")
-    private val requestsReset = longPreferencesKey("requests_reset")
-    private val unitsRemaining = intPreferencesKey("units_remaining")
-    private val unitsReset = longPreferencesKey("units_reset")
+    private val rapidApiKey = stringPreferencesKey("rapid_api_key")
+    private val requestsRemainingKey = intPreferencesKey("requests_remaining")
+    private val requestsResetKey = longPreferencesKey("requests_reset")
+    private val unitsRemainingKey = intPreferencesKey("units_remaining")
+    private val unitsResetKey = longPreferencesKey("units_reset")
     
-    val apiKeyFlow: Flow<String> = dataStore.data.map { it[apiKeyPref] ?: "" }
+    val apiKeyFlow: Flow<String> = dataStore.data.map { it[rapidApiKey] ?: "" }
 
     val usageLimitsFlow: Flow<UsageLimits?> = dataStore.data.map { prefs ->
-        val remaining = prefs[requestsRemaining]
+        val remaining = prefs[requestsRemainingKey]
         if (remaining == null) {
             null
         } else {
             UsageLimits(
                 requestsRemaining = remaining,
-                requestsReset = prefs[requestsReset] ?: 0L,
-                unitsRemaining = prefs[unitsRemaining] ?: 0,
-                unitsReset = prefs[unitsReset] ?: 0L
+                requestsReset = prefs[requestsResetKey] ?: 0L,
+                unitsRemaining = prefs[unitsRemainingKey] ?: 0,
+                unitsReset = prefs[unitsResetKey] ?: 0L
             )
         }
     }
 
     suspend fun setApiKey(value: String) {
-        dataStore.edit { it[apiKeyPref] = value }
+        dataStore.edit { it[rapidApiKey] = value }
     }
 
     suspend fun setUsageLimits(limits: UsageLimits) {
         dataStore.edit { prefs ->
-            prefs[requestsRemaining] = limits.requestsRemaining
-            prefs[requestsReset] = limits.requestsReset
-            prefs[unitsRemaining] = limits.unitsRemaining
-            prefs[unitsReset] = limits.unitsReset
+            prefs[requestsRemainingKey] = limits.requestsRemaining
+            prefs[requestsResetKey] = limits.requestsReset
+            prefs[unitsRemainingKey] = limits.unitsRemaining
+            prefs[unitsResetKey] = limits.unitsReset
         }
     }
 
     suspend fun clearUsageLimits() {
         dataStore.edit { prefs ->
-            prefs.remove(requestsRemaining)
-            prefs.remove(requestsReset)
-            prefs.remove(unitsRemaining)
-            prefs.remove(unitsReset)
+            prefs.remove(requestsRemainingKey)
+            prefs.remove(requestsResetKey)
+            prefs.remove(unitsRemainingKey)
+            prefs.remove(unitsResetKey)
         }
     }
 }
