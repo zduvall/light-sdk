@@ -40,7 +40,7 @@ class SettingsScreenViewModel(
     private val aeroDataBoxClient: AeroDataBoxClient
 ) : LightViewModel<Unit>() {
 
-    // Expose the persisted API key as UI state.
+    /** Expose the API key as UI state. */
     val apiKey: StateFlow<String> = settingsRepository.apiKeyFlow
         .stateIn(
             scope = viewModelScope,
