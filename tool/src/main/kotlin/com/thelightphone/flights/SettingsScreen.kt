@@ -47,12 +47,12 @@ class SettingsScreenViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = ""
         )
-        
+
     var isLoading by mutableStateOf(false)
     var errorMessage by mutableStateOf<String?>(null)
 
     /**
-     * Persist AeroDataBox API key to local disk. 
+     * Persist AeroDataBox API key to local disk.
      * @param value The plaintext string token to persist.
      */
     fun setApiKey(value: String) {
@@ -64,7 +64,7 @@ class SettingsScreenViewModel(
             }
         }
     }
-    
+
     // Read the usage limit object as a StateFlow, defaulting to null if not yet set.
     val usageLimits: StateFlow<UsageLimits?> = settingsRepository.usageLimitsFlow
         .stateIn(
@@ -73,7 +73,7 @@ class SettingsScreenViewModel(
             initialValue = null
         )
 
-    /** Persist updated usage limits to local disk. 
+    /** Persist updated usage limits to local disk.
      * @param limits The [UsageLimits] instance containing the latest usage stats.
      */
     fun setUsageLimits(limits: UsageLimits) {
@@ -92,7 +92,7 @@ class SettingsScreenViewModel(
             }
         }
     }
-    
+
     fun fetchAndSetUsageLimits() {
         isLoading = true
         errorMessage = null
@@ -102,12 +102,15 @@ class SettingsScreenViewModel(
                     is ApiResult.Success -> {
                         setUsageLimits(result.data)
                     }
+
                     is ApiResult.Error.MissingAuth -> {
                         errorMessage = "Missing API key. Please provide your AeroDataBox RapidAPI key."
                     }
+
                     is ApiResult.Error.Unauthorized -> {
                         errorMessage = "Invalid API key. Please check your AeroDataBox RapidAPI key."
                     }
+
                     is ApiResult.Error.RateLimited -> {
                         errorMessage = "Rate limit exceeded. Please try again later."
                     }
@@ -154,7 +157,7 @@ class SettingsScreen(
     override fun Content() {
         val apiKeyValue by viewModel.apiKey.collectAsState()
         val currentLimits by viewModel.usageLimits.collectAsState()
-        
+
         TabScaffold(
             title = "Settings",
             activeTab = FlightsTab.Settings,
@@ -246,10 +249,11 @@ private fun ApiKeyStatus(
             val requestsResetDate = dateFromNowPlusSeconds(usageLimits.requestsReset)
             val unitsResetDate = dateFromNowPlusSeconds(usageLimits.unitsReset)
             "Requests Remaining: ${usageLimits.requestsRemaining}\n" +
-            "Requests Reset: $requestsResetDate\n" +
-            "Units Remaining: ${usageLimits.unitsRemaining}\n" +
-            "Units Reset: $unitsResetDate"
+                    "Requests Reset: $requestsResetDate\n" +
+                    "Units Remaining: ${usageLimits.unitsRemaining}\n" +
+                    "Units Reset: $unitsResetDate"
         }
+
         else -> null
     }
 
