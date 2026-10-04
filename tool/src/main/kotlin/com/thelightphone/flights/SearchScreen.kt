@@ -150,7 +150,8 @@ class SearchScreen(
     @Composable
     override fun Content() {
         val latestSearchValue by viewModel.latestSearch.collectAsState()
-                
+        val searchHistoryValue by viewModel.searchHistory.collectAsState()
+
         TabScaffold(
             title = "Search",
             activeTab = FlightsTab.Search,
