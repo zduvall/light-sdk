@@ -169,7 +169,7 @@ class SearchScreen(
                     )
                     navigateTo(
                         screenFactory = { TextInputEditorScreen(it, editorRequest) },
-                        resultCallback = viewModel::setLatestSearch
+                        resultCallback = viewModel::handleSearchQuery
                     )
                 },
                 modifier = Modifier
