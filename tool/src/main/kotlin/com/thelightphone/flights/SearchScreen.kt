@@ -140,7 +140,11 @@ class SearchScreen(
 
     override fun createViewModel(): SearchScreenViewModel {
         val flightsRepository = FlightsRepository(lightContext.dataStore)
-        return SearchScreenViewModel(flightsRepository)
+        val settingsRepository = SettingsRepository(lightContext.dataStore)
+
+        val apiClient = AeroDataBoxClient(settingsRepository = settingsRepository)
+
+        return SearchScreenViewModel(flightsRepository, apiClient)
     }
 
     @Composable
