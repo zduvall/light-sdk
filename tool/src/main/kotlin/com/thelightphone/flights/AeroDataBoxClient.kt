@@ -18,6 +18,7 @@ sealed interface ApiResult<out T> {
     sealed interface Error : ApiResult<Nothing> {
         data class Http(val code: Int, val message: String? = null) : Error
         data object Unauthorized : Error    // 401, 403
+        data object NotFound : Error        // 404
         data object RateLimited : Error     // 429
         data object MissingAuth : Error     // Empty key locally
         data class Network(val throwable: Throwable) : Error
@@ -96,6 +97,7 @@ class AeroDataBoxClient(
                     ApiResult.Success(flightStatus)
                 }
 
+                204 -> ApiResult.Error.NotFound
                 401, 403 -> ApiResult.Error.Unauthorized
                 429 -> ApiResult.Error.RateLimited
                 else -> ApiResult.Error.Http(response.status.value, response.status.description)
