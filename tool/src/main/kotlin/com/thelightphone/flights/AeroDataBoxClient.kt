@@ -56,7 +56,7 @@ class AeroDataBoxClient(
             }
 
             when (response.status.value) {
-                in 200..299 -> {
+                200 -> {
                     val limits = UsageLimits(
                         requestsRemaining = response.headers["x-ratelimit-requests-remaining"]?.toIntOrNull() ?: 0,
                         requestsReset = response.headers["x-ratelimit-requests-reset"]?.toLongOrNull() ?: 0L,
