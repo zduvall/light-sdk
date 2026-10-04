@@ -221,10 +221,12 @@ fun FlightStatus(fS: FlightStatus) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         LightText(
-            fS.departure.airport.iata, variant = LightTextVariant.Subtitle,
+            fS.departure.airport.iata ?: "Unknown",
+            variant = LightTextVariant.Subtitle,
         )
         LightText(
-            fS.arrival.airport.iata, variant = LightTextVariant.Subtitle,
+            fS.arrival.airport.iata ?: "Unknown",
+            variant = LightTextVariant.Subtitle,
         )
     }
     Row(
