@@ -48,12 +48,12 @@ fun BottomBar(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         tabs.forEach { config ->
-            flightsNavIcon(
+            NavIcon(
                 icon = config.icon,
                 description = config.title,
                 active = active == config.tab,
                 onClick = {
-                    if (active == config.tab) return@flightsNavIcon
+                    if (active == config.tab) return@NavIcon
                     onNavigate(config.screenFactory)
                 }
             )
@@ -62,7 +62,7 @@ fun BottomBar(
 }
 
 @Composable
-private fun flightsNavIcon(
+private fun NavIcon(
     icon: LightIconConfiguration,
     description: String,
     active: Boolean,
