@@ -1,31 +1,19 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.ui.search
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.Row
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewModelScope
-
-import com.thelightphone.sdk.LightScreen
+import com.thelightphone.flights.data.AeroDataBoxClient
+import com.thelightphone.flights.data.FlightsRepository
+import com.thelightphone.flights.data.SearchHistory
+import com.thelightphone.flights.model.ApiResult
 import com.thelightphone.sdk.LightViewModel
-import com.thelightphone.sdk.SealedLightActivity
-import com.thelightphone.sdk.ui.gridUnitsAsDp
-import com.thelightphone.sdk.ui.LightText
-import com.thelightphone.sdk.ui.LightTextField
-import com.thelightphone.sdk.ui.LightTextVariant
-
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 
 /**
@@ -131,109 +119,9 @@ class SearchScreenViewModel(
     }
 }
 
-class SearchScreen(
-    sealedActivity: SealedLightActivity
-) : LightScreen<Unit, SearchScreenViewModel>(sealedActivity) {
-
-    override val viewModelClass: Class<SearchScreenViewModel>
-        get() = SearchScreenViewModel::class.java
-
-    override fun createViewModel(): SearchScreenViewModel {
-        val flightsRepository = FlightsRepository(lightContext.dataStore)
-        val settingsRepository = SettingsRepository(lightContext.dataStore)
-
-        val apiClient = AeroDataBoxClient(settingsRepository = settingsRepository)
-
-        return SearchScreenViewModel(flightsRepository, apiClient)
-    }
-
-    @Composable
-    override fun Content() {
-        val latestSearchValue by viewModel.latestSearch.collectAsState()
-        val searchHistoryValue by viewModel.searchHistory.collectAsState()
-
-        TabScaffold(
-            title = "Search",
-            activeTab = FlightsTab.Search,
-            onNavigate = { navigateTo(it) },
-        ) {
-
-            LightTextField(
-                label = "Flight Code:",
-                value = latestSearchValue,
-                placeholder = "",
-                onClick = {
-                    val editorRequest = EditorRequest(
-                        title = "Flight Code",
-                        initialValue = latestSearchValue,
-                    )
-                    navigateTo(
-                        screenFactory = { TextInputEditorScreen(it, editorRequest) },
-                        resultCallback = viewModel::handleSearchQuery
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 0.75f.gridUnitsAsDp())
-
-            )
-
-            when {
-                viewModel.isLoading || viewModel.errorMessage != null -> {
-                    val displayText = if (viewModel.isLoading) "Loading..." else viewModel.errorMessage.orEmpty()
-
-                    LightText(
-                        text = displayText,
-                        variant = LightTextVariant.Fine,
-                        modifier = Modifier.padding(
-                            start = 0.75f.gridUnitsAsDp(),
-                            end = 0.75f.gridUnitsAsDp(),
-                            bottom = 0.75f.gridUnitsAsDp()
-                        ),
-                        align = TextAlign.Justify,
-                        lighten = true
-                    )
-                }
-
-                else -> {
-                    val flightStatus = searchHistoryValue[standardizeFlightNumber(latestSearchValue)].orEmpty()
-
-                    flightStatus.forEach { status ->
-                        FlightStatus(status)
-                    }
-                }
-            }
-        }
-    }
-}
-
 /**
  * Standardizes flight number by removing whitespace & converting to lowercase.
  */
 fun standardizeFlightNumber(flightNumber: String): String {
     return flightNumber.replace("\\s".toRegex(), "").lowercase()
-}
-
-@Composable
-fun FlightStatus(fS: FlightStatus) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        LightText(
-            fS.departure.airport.iata ?: "Unknown",
-            variant = LightTextVariant.Subtitle,
-        )
-        LightText(
-            fS.arrival.airport.iata ?: "Unknown",
-            variant = LightTextVariant.Subtitle,
-        )
-    }
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        LightText(fS.departure.airport.name, variant = LightTextVariant.Detail)
-        LightText(fS.arrival.airport.name, variant = LightTextVariant.Detail)
-    }
 }

@@ -1,4 +1,4 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.ui.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

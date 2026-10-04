@@ -1,4 +1,4 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.ui.navigation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.thelightphone.flights.ui.history.HistoryScreen
+import com.thelightphone.flights.ui.home.HomeScreen
+import com.thelightphone.flights.ui.search.SearchScreen
+import com.thelightphone.flights.ui.settings.SettingsScreen
 import com.thelightphone.sdk.SealedLightActivity
 import com.thelightphone.sdk.SimpleLightScreen
 import com.thelightphone.sdk.ui.LightColors
@@ -18,8 +22,6 @@ import com.thelightphone.sdk.ui.LightTheme
 import com.thelightphone.sdk.ui.LightThemeTokens
 import com.thelightphone.sdk.ui.gridUnitsAsDp
 import com.thelightphone.sdk.ui.lightClickable
-
-enum class FlightsTab { History, Search, Home, Settings }
 
 private data class TabConfig(
     val tab: FlightsTab,

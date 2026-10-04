@@ -1,41 +1,16 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.data
 
-import io.ktor.client.call.body
-import io.ktor.client.engine.okhttp.OkHttp
+import com.thelightphone.flights.model.ApiResult
+import com.thelightphone.flights.model.FlightAppNetwork
+import com.thelightphone.flights.model.FlightStatus
+import com.thelightphone.flights.model.UsageLimits
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.call.body
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.header
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.statement.HttpResponse
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
-import kotlinx.serialization.json.Json
-
-sealed interface ApiResult<out T> {
-    data class Success<out T>(val data: T) : ApiResult<T>
-
-    sealed interface Error : ApiResult<Nothing> {
-        data class Http(val code: Int, val message: String? = null) : Error
-        data object Unauthorized : Error    // 401, 403
-        data object NotFound : Error        // 404
-        data object RateLimited : Error     // 429
-        data object MissingAuth : Error     // Empty key locally
-        data class Network(val throwable: Throwable) : Error
-        data class Unknown(val throwable: Throwable? = null) : Error
-    }
-}
-
-object FlightAppNetwork {
-    val httpClient = HttpClient(OkHttp) {
-        // Allow API to return fields not defined on models without crashing
-        install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-            })
-        }
-    }
-}
 
 class AeroDataBoxClient(
     private val client: HttpClient = FlightAppNetwork.httpClient,

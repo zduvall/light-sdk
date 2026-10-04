@@ -1,16 +1,10 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.data
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
+import com.thelightphone.flights.model.UsageLimits
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-
-data class UsageLimits(
-    val requestsRemaining: Int = 0,
-    val requestsReset: Long = 0L,
-    val unitsRemaining: Int = 0,
-    val unitsReset: Long = 0L
-)
 
 /**
  * Shared repository for persisting app-wide settings via DataStore.

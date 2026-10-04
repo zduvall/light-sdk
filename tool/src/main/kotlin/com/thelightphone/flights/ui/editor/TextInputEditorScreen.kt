@@ -1,4 +1,4 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.ui.editor
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.thelightphone.flights.model.EditorRequest
 import com.thelightphone.lp3Keyboard.ui.KeyboardOptions
 import com.thelightphone.lp3Keyboard.ui.viewmodel.defaultEmojis
 import com.thelightphone.sdk.SealedLightActivity
@@ -21,12 +22,6 @@ import com.thelightphone.sdk.ui.LightThemeController
 import com.thelightphone.sdk.ui.LightThemeTokens
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
-data class EditorRequest(
-    val title: String,
-    val initialValue: String,
-    val initialCaps: Boolean = false,
-)
 
 class TextInputEditorScreen(
     sealedActivity: SealedLightActivity,

@@ -1,17 +1,13 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.ui.home
 
 import androidx.compose.runtime.Composable
+import com.thelightphone.flights.ui.navigation.FlightsTab
+import com.thelightphone.flights.ui.navigation.TabScaffold
 import com.thelightphone.sdk.InitialScreen
 import com.thelightphone.sdk.LightScreen
-import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextVariant
-
-/**
- * ViewModel containing the data for HomeScreen.
- */
-class HomeScreenViewModel : LightViewModel<Unit>()
 
 @InitialScreen
 class HomeScreen(

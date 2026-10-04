@@ -1,16 +1,12 @@
-package com.thelightphone.flights
+package com.thelightphone.flights.ui.history
 
 import androidx.compose.runtime.Composable
+import com.thelightphone.flights.ui.navigation.FlightsTab
+import com.thelightphone.flights.ui.navigation.TabScaffold
 import com.thelightphone.sdk.LightScreen
-import com.thelightphone.sdk.LightViewModel
 import com.thelightphone.sdk.SealedLightActivity
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextVariant
-
-/**
- * ViewModel containing the data and behavior for the main Flights Search Screen.
- */
-class HistoryScreenViewModel : LightViewModel<Unit>()
 
 class HistoryScreen(
     sealedActivity: SealedLightActivity
