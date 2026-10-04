@@ -4,26 +4,19 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FlightStatus(
-    val greatCircleDistance: GreatCircleDistance? = null,
+    val greatCircleDistance: Distance? = null,
     val departure: FlightEndpoint,
     val arrival: FlightEndpoint,
+    val flightPlan: FlightPlan? = null,
     val lastUpdatedUtc: String,
     val number: String,
     val callSign: String? = null,
     val status: String,
-    val codeshareStatus: String? = null,
-    val isCargo: Boolean? = null,
+    val codeshareStatus: String,
+    val isCargo: Boolean,
     val aircraft: Aircraft? = null,
-    val airline: Airline? = null
-)
-
-@Serializable
-data class GreatCircleDistance(
-    val meter: Double,
-    val km: Double,
-    val mile: Double,
-    val nm: Double,
-    val feet: Double
+    val airline: Airline? = null,
+    val location: FlightLocation? = null
 )
 
 @Serializable
@@ -34,14 +27,18 @@ data class FlightEndpoint(
     val predictedTime: FlightTime? = null,
     val runwayTime: FlightTime? = null,
     val terminal: String? = null,
+    val checkInDesk: String? = null,
+    val gate: String? = null,
+    val baggageBelt: String? = null,
     val runway: String? = null,
-    val quality: List<String> = emptyList()
+    val quality: List<String>
 )
 
 @Serializable
 data class Airport(
     val icao: String? = null,
     val iata: String? = null,
+    val localCode: String? = null,
     val name: String,
     val shortName: String? = null,
     val municipalityName: String? = null,
@@ -64,12 +61,93 @@ data class FlightTime(
 
 @Serializable
 data class Aircraft(
-    val model: String? = null
+    val reg: String? = null,
+    val modeS: String? = null,
+    val model: String? = null,
+    val image: Resource? = null
 )
 
 @Serializable
 data class Airline(
-    val name: String? = null,
+    val name: String,
     val iata: String? = null,
     val icao: String? = null
+)
+
+@Serializable
+data class Resource(
+    val url: String,
+    val webUrl: String? = null,
+    val author: String? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val license: String,
+    val htmlAttributions: List<String>? = null
+)
+
+@Serializable
+data class FlightLocation(
+    val pressureAltitude: Distance,
+    val altitude: Distance,
+    val pressure: Pressure,
+    val groundSpeed: Speed,
+    val trueTrack: Azimuth,
+    val vsiFpm: Int? = null,
+    val reportedAtUtc: String,
+    val lat: Double,
+    val lon: Double
+)
+
+@Serializable
+data class Distance(
+    val meter: Double,
+    val km: Double,
+    val mile: Double,
+    val nm: Double,
+    val feet: Double
+)
+
+@Serializable
+data class Pressure(
+    val hPa: Double,
+    val inHg: Double,
+    val mmHg: Double
+)
+
+@Serializable
+data class Speed(
+    val kt: Double,
+    val kmPerHour: Double,
+    val miPerHour: Double,
+    val meterPerSecond: Double
+)
+
+@Serializable
+data class Azimuth(
+    val deg: Double,
+    val rad: Double
+)
+
+@Serializable
+data class FlightPlan(
+    val flightRules: String? = null,
+    val flightType: String? = null,
+    val revisionNo: Int? = null,
+    val status: String? = null,
+    val route: String,
+    val altitude: FlightPlanDistance? = null,
+    val airspeed: FlightPlanSpeed? = null,
+    val lastUpdatedUtc: String
+)
+
+@Serializable
+data class FlightPlanDistance(
+    val requested: Distance? = null,
+    val assigned: Distance? = null
+)
+
+@Serializable
+data class FlightPlanSpeed(
+    val requested: Speed? = null,
+    val assigned: Speed? = null
 )
