@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.thelightphone.flights.model.Flight
+import com.thelightphone.flights.model.FlightStatus
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextVariant
 import java.time.LocalDateTime
@@ -75,14 +76,15 @@ fun FlightStatusRow(
             ?: fS.arrival.runwayTime?.local,
     )
 
-    val statusLower = fS.status.name.lowercase()
-    val isArrived =
-        listOf("arrived", "landed").any(statusLower::contains) ||
-                fS.arrival.runwayTime != null
-    val isDeparted =
-        isArrived ||
-                listOf("departed", "enroute", "airborne").any(statusLower::contains) ||
-                fS.departure.runwayTime != null
+    val isArrived = fS.status == FlightStatus.ARRIVED ||
+            fS.arrival.runwayTime != null
+    val isDeparted = isArrived ||
+            fS.status in setOf(
+                FlightStatus.DEPARTED,
+                FlightStatus.EN_ROUTE,
+                FlightStatus.APPROACHING,
+            ) ||
+            fS.departure.runwayTime != null
 
     val departureStatusLabel = if (isDeparted) "Departed" else "Scheduled departure"
     val arrivalStatusLabel = when {
