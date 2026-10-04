@@ -32,8 +32,8 @@ import kotlinx.coroutines.withContext
 class SearchScreenViewModel(
     private val flightsRepository: FlightsRepository
 ) : LightViewModel<Unit>() {
-    
-    /** Expose the latest search query as UI state. */
+
+    /** Expose the latest flight number search query as UI state. */
     val latestSearch: StateFlow<String> = flightsRepository.latestSearchFlow
         .stateIn(
             scope = viewModelScope,
@@ -42,7 +42,7 @@ class SearchScreenViewModel(
         )
 
     /**
-     * Persist the latest search query to local disk. 
+     * Persist the latest flight status search query to local disk.
      * @param value The latest search query string to persist.
      */
     fun setLatestSearch(value: String) {
