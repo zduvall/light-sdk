@@ -57,6 +57,78 @@ class SearchScreenViewModel(
             }
         }
     }
+
+    var isLoading by mutableStateOf(false)
+    var errorMessage by mutableStateOf<String?>(null)
+
+    val searchHistory: StateFlow<SearchHistory> = flightsRepository.searchHistoryFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyMap()
+        )
+
+    fun setSearchHistory(value: SearchHistory) {
+        viewModelScope.launch {
+            withContext(NonCancellable) {
+                flightsRepository.setSearchHistory(value)
+            }
+        }
+    }
+
+    fun handleSearchQuery(flightNumber: String) {
+        setLatestSearch(flightNumber)
+        isLoading = true
+        errorMessage = null
+
+        viewModelScope.launch {
+            try {
+                val standardFlightNumber = standardizeFlightNumber(flightNumber)
+
+                when (val result = aeroDataBoxClient.fetchFlightStatus(standardFlightNumber)) {
+                    is ApiResult.Success -> {
+                        val updatedHistory = searchHistory.value.toMutableMap()
+                        updatedHistory[standardFlightNumber] = result.data
+                        flightsRepository.setSearchHistory(updatedHistory)
+                    }
+
+                    is ApiResult.Error.MissingAuth -> {
+                        errorMessage =
+                            "Missing API key. Please provide your AeroDataBox RapidAPI key on the settings page."
+                    }
+
+                    is ApiResult.Error.Unauthorized -> {
+                        errorMessage =
+                            "Invalid API key. Please check your AeroDataBox RapidAPI key on the settings page."
+                    }
+
+                    is ApiResult.Error.RateLimited -> {
+                        errorMessage = "Rate limit exceeded. Please try again later."
+                    }
+
+                    is ApiResult.Error.NotFound -> {
+                        errorMessage = "No flights found matching flight number \"$flightNumber.\""
+                    }
+
+                    // // Comment in for debugging HTTP and network errors:
+                    // is ApiResult.Error.Http -> {
+                    //     errorMessage = "HTTP ${result.code}: ${result.message}"
+                    // }
+
+                    // is ApiResult.Error.Network -> {
+                    //     errorMessage =
+                    //         "Network error: ${result.throwable.localizedMessage ?: result.throwable.message ?: "Unknown error"}"
+                    // }
+
+                    else -> {
+                        errorMessage = "An error occurred while fetching flight status. Please try again."
+                    }
+                }
+            } finally {
+                isLoading = false
+            }
+        }
+    }
 }
 
 class SearchScreen(
