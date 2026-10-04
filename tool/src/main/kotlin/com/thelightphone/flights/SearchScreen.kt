@@ -178,6 +178,31 @@ class SearchScreen(
 
             )
 
+            when {
+                viewModel.isLoading || viewModel.errorMessage != null -> {
+                    val displayText = if (viewModel.isLoading) "Loading..." else viewModel.errorMessage.orEmpty()
+
+                    LightText(
+                        text = displayText,
+                        variant = LightTextVariant.Fine,
+                        modifier = Modifier.padding(
+                            start = 0.75f.gridUnitsAsDp(),
+                            end = 0.75f.gridUnitsAsDp(),
+                            bottom = 0.75f.gridUnitsAsDp()
+                        ),
+                        align = TextAlign.Justify,
+                        lighten = true
+                    )
+                }
+
+                else -> {
+                    val flightStatus = searchHistoryValue[standardizeFlightNumber(latestSearchValue)].orEmpty()
+
+                    flightStatus.forEach { status ->
+                        FlightStatus(status)
+                    }
+                }
+            }
         }
     }
 }
@@ -187,4 +212,26 @@ class SearchScreen(
  */
 fun standardizeFlightNumber(flightNumber: String): String {
     return flightNumber.replace("\\s".toRegex(), "").lowercase()
+}
+
+@Composable
+fun FlightStatus(fS: FlightStatus) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        LightText(
+            fS.departure.airport.iata, variant = LightTextVariant.Subtitle,
+        )
+        LightText(
+            fS.arrival.airport.iata, variant = LightTextVariant.Subtitle,
+        )
+    }
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        LightText(fS.departure.airport.name, variant = LightTextVariant.Detail)
+        LightText(fS.arrival.airport.name, variant = LightTextVariant.Detail)
+    }
 }
