@@ -64,6 +64,38 @@ class AeroDataBoxClient(
                     )
                     ApiResult.Success(limits)
                 }
+
+                401, 403 -> ApiResult.Error.Unauthorized
+                429 -> ApiResult.Error.RateLimited
+                else -> ApiResult.Error.Http(response.status.value, response.status.description)
+            }
+        } catch (e: Exception) {
+            ApiResult.Error.Network(e)
+        }
+    }
+
+    suspend fun fetchFlightStatus(flightNumber: String): ApiResult<List<FlightStatus>> {
+        val apiKey = settingsRepository.apiKeyFlow.first()
+
+        if (apiKey.isBlank()) return ApiResult.Error.MissingAuth
+
+        return try {
+            val response: HttpResponse = client.get("$baseUrl/flights/number/$flightNumber") {
+                url {
+                    parameters.append("withFlightPlan", "false")
+                    parameters.append("withLocation", "false")
+                    parameters.append("withAircraftImage", "false")
+                }
+                header("x-rapidapi-key", apiKey)
+                header("x-rapidapi-host", host)
+            }
+
+            when (response.status.value) {
+                in 200..299 -> {
+                    val flightStatus = response.body<List<FlightStatus>>()
+                    ApiResult.Success(flightStatus)
+                }
+
                 401, 403 -> ApiResult.Error.Unauthorized
                 429 -> ApiResult.Error.RateLimited
                 else -> ApiResult.Error.Http(response.status.value, response.status.description)
