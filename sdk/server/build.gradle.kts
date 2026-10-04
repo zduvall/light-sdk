@@ -54,7 +54,7 @@ afterEvaluate {
 
 dependencies {
     api(project(":sdk:shared"))
-    api(libs.light.toolmanager)
+    api(libs.light.toolmanager.server)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.work.runtime)

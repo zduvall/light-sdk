@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.session)
+    api(libs.light.toolmanager.client)
     lintChecks(project(":lint-rules"))
 
     testImplementation(libs.kotlin.test)

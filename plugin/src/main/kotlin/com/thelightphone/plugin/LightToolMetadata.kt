@@ -188,8 +188,16 @@ object LightToolPolicy {
     )
 
     const val DETACHED_AUDIO: String = "detached-audio"
+    const val TOOL_MANAGER_PROVIDER: String = "tool-manager-provider"
+    /**
+     * Allows a tool to access resources over plain HTTP, which Android blocks by
+     * default. Useful for tools that need to reach self-hosted servers on the
+     * user's own network.
+     */
+    const val CLEARTEXT_HTTP: String = "cleartext-http"
 
-    val ALLOWED_CAPABILITIES: Set<String> = setOf(DETACHED_AUDIO)
+    val ALLOWED_CAPABILITIES: Set<String> =
+        setOf(DETACHED_AUDIO, TOOL_MANAGER_PROVIDER, CLEARTEXT_HTTP)
 
     /**
      * Permissions a capability contributes to the generated manifest. These are
@@ -211,6 +219,10 @@ object LightToolPolicy {
      */
     fun capabilityMarker(capability: String): String =
         "com.thelightphone.sdk.CAPABILITY_" + capability.uppercase().replace('-', '_')
+
+    // <provider> <meta-data> key a LightFileProvider-compatible provider must
+    // declare (value "true") to be discoverable by the tool manager.
+    const val META_DATA_TOOL_MANAGER_PROVIDER: String = "com.thelightphone.toolmanager.TOOL_MANAGER_PROVIDER"
 
     /**
      * Permissions that Play Store / lint infer as also requiring a hardware
