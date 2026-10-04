@@ -72,7 +72,7 @@ private fun flightsNavIcon(
     val scheme = LightThemeTokens.surfaceScheme
     val typography = LightThemeTokens.typography
     val tintedColors = if (active) colors else mutedColors(colors, scheme)
-    
+
     LightTheme(colors = tintedColors, typography = typography, surfaceScheme = scheme) {
         LightIcon(
             icon = icon,
