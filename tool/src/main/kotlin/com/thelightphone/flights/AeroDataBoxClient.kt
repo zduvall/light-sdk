@@ -1,12 +1,16 @@
 package com.thelightphone.flights
 
-import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
+import kotlinx.serialization.json.Json
 
 sealed interface ApiResult<out T> {
     data class Success<out T>(val data: T) : ApiResult<T>
@@ -22,7 +26,14 @@ sealed interface ApiResult<out T> {
 }
 
 object FlightAppNetwork {
-    val httpClient = HttpClient(OkHttp)
+    val httpClient = HttpClient(OkHttp) {
+        // Allow API to return fields not defined on models without crashing
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+            })
+        }
+    }
 }
 
 class AeroDataBoxClient(
@@ -34,7 +45,7 @@ class AeroDataBoxClient(
 
     suspend fun fetchUsageLimits(): ApiResult<UsageLimits> {
         val apiKey = settingsRepository.apiKeyFlow.first()
-        
+
         if (apiKey.isBlank()) return ApiResult.Error.MissingAuth
 
         return try {
@@ -42,7 +53,7 @@ class AeroDataBoxClient(
                 header("x-rapidapi-key", apiKey)
                 header("x-rapidapi-host", host)
             }
-            
+
             when (response.status.value) {
                 in 200..299 -> {
                     val limits = UsageLimits(
