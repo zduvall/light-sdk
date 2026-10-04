@@ -92,7 +92,7 @@ class AeroDataBoxClient(
             }
 
             when (response.status.value) {
-                in 200..299 -> {
+                200 -> {
                     val flightStatus = response.body<List<FlightStatus>>()
                     ApiResult.Success(flightStatus)
                 }
