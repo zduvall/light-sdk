@@ -1,9 +1,10 @@
 package com.thelightphone.flights.model
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
 @Serializable
-data class FlightStatus(
+data class Flight(
     val greatCircleDistance: Distance? = null,
     val departure: FlightEndpoint,
     val arrival: FlightEndpoint,
@@ -11,7 +12,7 @@ data class FlightStatus(
     val lastUpdatedUtc: String,
     val number: String,
     val callSign: String? = null,
-    val status: String,
+    val status: FlightStatus,
     val codeshareStatus: String,
     val isCargo: Boolean,
     val aircraft: Aircraft? = null,
@@ -46,3 +47,45 @@ data class Airport(
     val countryCode: String? = null,
     val timeZone: String? = null
 )
+
+@Serializable
+enum class FlightStatus {
+    @SerialName("Unknown")
+    UNKNOWN,
+
+    @SerialName("Expected")
+    EXPECTED,
+
+    @SerialName("EnRoute")
+    EN_ROUTE,
+
+    @SerialName("CheckIn")
+    CHECK_IN,
+
+    @SerialName("Boarding")
+    BOARDING,
+
+    @SerialName("GateClosed")
+    GATE_CLOSED,
+
+    @SerialName("Departed")
+    DEPARTED,
+
+    @SerialName("Delayed")
+    DELAYED,
+
+    @SerialName("Approaching")
+    APPROACHING,
+
+    @SerialName("Arrived")
+    ARRIVED,
+
+    @SerialName("Canceled")
+    CANCELED,
+
+    @SerialName("Diverted")
+    DIVERTED,
+
+    @SerialName("CanceledUncertain")
+    CANCELED_UNCERTAIN
+}

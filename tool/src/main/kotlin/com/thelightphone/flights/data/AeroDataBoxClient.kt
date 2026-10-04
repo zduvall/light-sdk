@@ -2,7 +2,7 @@ package com.thelightphone.flights.data
 
 import com.thelightphone.flights.model.ApiResult
 import com.thelightphone.flights.model.FlightAppNetwork
-import com.thelightphone.flights.model.FlightStatus
+import com.thelightphone.flights.model.Flight
 import com.thelightphone.flights.model.UsageLimits
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -31,7 +31,7 @@ class AeroDataBoxClient(
 
     suspend fun fetchFlightStatus(
         flightNumber: String
-    ): ApiResult<List<FlightStatus>> =
+    ): ApiResult<List<Flight>> =
         get(
             path = "/flights/number/$flightNumber",
             statusErrors = listOf(204 to ApiResult.Error.NotFound),
@@ -43,7 +43,7 @@ class AeroDataBoxClient(
                 }
             }
         ) { response ->
-            response.body<List<FlightStatus>>()
+            response.body<List<Flight>>()
         }
 
     private suspend fun <T> get(

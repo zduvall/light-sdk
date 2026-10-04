@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.thelightphone.flights.model.FlightStatus
+import com.thelightphone.flights.model.Flight
 import com.thelightphone.sdk.ui.LightText
 import com.thelightphone.sdk.ui.LightTextVariant
 import java.time.LocalDateTime
@@ -53,7 +53,7 @@ private fun formatLocationDate(
 
 @Composable
 fun FlightStatusRow(
-    fS: FlightStatus,
+    fS: Flight,
     modifier: Modifier = Modifier,
 ) {
     val depLocationDate = formatLocationDate(
@@ -75,7 +75,7 @@ fun FlightStatusRow(
             ?: fS.arrival.runwayTime?.local,
     )
 
-    val statusLower = fS.status.lowercase()
+    val statusLower = fS.status.name.lowercase()
     val isArrived =
         listOf("arrived", "landed").any(statusLower::contains) ||
                 fS.arrival.runwayTime != null
