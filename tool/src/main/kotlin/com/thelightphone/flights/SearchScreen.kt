@@ -32,7 +32,8 @@ import kotlinx.coroutines.withContext
  * Flights Search Screen.
  */
 class SearchScreenViewModel(
-    private val flightsRepository: FlightsRepository
+    private val flightsRepository: FlightsRepository,
+    private val aeroDataBoxClient: AeroDataBoxClient
 ) : LightViewModel<Unit>() {
 
     /** Expose the latest flight number search query as UI state. */
