@@ -1,5 +1,6 @@
 <div align="center">
-  <img src="assets/flights.png" alt="Flights" height="350">
+  <img src="assets/flights-black.png#gh-light-mode-only" alt="Light Mode Flights Title" height="350">
+  <img src="assets/flights.png#gh-dark-mode-only" alt="Dark Mode Flights Title" height="350">
 </div>
 
 A flight-status lookup tool for the Light Phone III, built with the [Light SDK](https://github.com/lightphone/light-sdk).
@@ -18,7 +19,8 @@ Flights uses AeroDataBox through [RapidAPI](https://rapidapi.com/aedbx-aedbx/api
 Flight-number searches and API-usage checks are sent to RapidAPI to retrieve results.
 
 <div align="center">
-  <img src="assets/secure.png" alt="Secure" height="185">
+  <img src="assets/secure-black.png#gh-light-mode-only" alt="Light Mode Secure API Key" height="185">
+  <img src="assets/secure.png#gh-dark-mode-only" alt="Dark Mode Secure API Key" height="185">
 </div>
 
 Flights has no app-operated backend, analytics, or advertising.
