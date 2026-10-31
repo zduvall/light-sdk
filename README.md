@@ -16,11 +16,11 @@ Flights uses AeroDataBox through [RapidAPI](https://rapidapi.com/aedbx-aedbx/api
 
 Flight-number searches and API-usage checks are sent to RapidAPI to retrieve results.
 
-Flights has no app-operated backend, analytics, or advertising.
-
 <div align="center">
   <img src="assets/secure.png" alt="Secure" height="185">
 </div>
+
+Flights has no app-operated backend, analytics, or advertising.
 
 ### Gallery
 
