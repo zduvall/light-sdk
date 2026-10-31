@@ -9,7 +9,11 @@ Search by flight number to view available flight status and departure and arriva
 Recent searches are saved locally.
 
 <div align="center">
-  <img src="assets/status.png" alt="Status"height="120">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/status.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/status-black.png">
+    <img src="assets/status.png" alt="Status" height="120">
+  </picture>
 </div>
 
 Flights uses AeroDataBox through [RapidAPI](https://rapidapi.com/aedbx-aedbx/api/aerodatabox). Add your RapidAPI key in the app's Settings. The key is stored on your device and sent with API requests.
